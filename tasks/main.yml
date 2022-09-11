@@ -139,8 +139,5 @@
     owner: root
     group: root
     mode: '0755'
-  register: kubesysctl
-
-- name: Reload sysctl
-  ansible.builtin.command: sysctl --system
-  when: kubesysctl.changed
+  notify:
+    - 'kubworker: Reload sysctl'
