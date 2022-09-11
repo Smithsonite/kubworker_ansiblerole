@@ -143,4 +143,4 @@
 
 - name: Reload sysctl
   ansible.builtin.command: sysctl --system
-  when: kubesysctl is succeeded
+  when: kubesysctl.changed
