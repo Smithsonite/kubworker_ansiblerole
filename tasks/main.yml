@@ -13,6 +13,7 @@
   ansible.builtin.apt:
     name: curl
     state: present
+  register: curl
 
 - name: Add the overlay module
   community.general.modprobe:
@@ -25,7 +26,12 @@
     state: present
 
 - name: Pull Kubernetes key
-  ansible.builtin.shell: sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+  ansible.builtin.command: /bin/bash roles/csmithson12345.kubworker/files/kubekey.sh
+  when: curl is succeeded
+
+# - name: Pull Kubernetes key
+#   ansible.builtin.shell: sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+#   when: curl is succeeded
 
 - name: Add Kubernetes repository to apt
   ansible.builtin.apt_repository:
@@ -112,6 +118,8 @@
     owner: root
     group: root
     mode: '0755'
+  notify:
+    - 'kubworker: Restart containerd'
 
 - name: Copy kubernetes.conf to systemctl
   ansible.builtin.copy:
@@ -120,3 +128,8 @@
     owner: root
     group: root
     mode: '0755'
+  register: kubesysctl
+
+- name: Reload sysctl
+  ansible.builtin.command: sysctl --system
+  when: kubesysctl is succeeded
