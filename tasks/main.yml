@@ -101,7 +101,7 @@
   register: makecnidir
 
 - name: List contents of CNI Directory
-  ansible.builtin.command: ls mydir
+  ansible.builtin.command: ls /opt/cni/bin
   register: cnicontents
   when: makecnidir is succeeded
 
