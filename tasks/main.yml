@@ -130,7 +130,7 @@
     group: root
     mode: '0755'
   notify:
-    - 'kubworker: Restart containerd'
+    - 'csmithson12345.kubworker : Restart containerd'
 
 - name: Copy kubernetes.conf to systemctl
   ansible.builtin.copy:
@@ -140,4 +140,4 @@
     group: root
     mode: '0755'
   notify:
-    - 'kubworker: Reload sysctl'
+    - 'csmithson12345.kubworker : Reload sysctl'
