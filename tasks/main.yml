@@ -147,7 +147,7 @@
     name: kubelet.service
     enabled: true
 
-  - name: Enable service containerd, and not touch the state
+- name: Enable service containerd, and not touch the state
   ansible.builtin.service:
     name: containerd.service
-    enabled: true  
+    enabled: true
