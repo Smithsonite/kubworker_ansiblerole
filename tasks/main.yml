@@ -114,7 +114,7 @@
     src: https://github.com/containernetworking/plugins/releases/download/v1.1.1/cni-plugins-linux-arm-v1.1.1.tgz
     dest: /opt/cni/bin
     remote_src: true
-  when: cnicontents.stdout == ""
+  when: cnicontents.stdout | length == 0
 
 - name: Create containerd config directory
   ansible.builtin.file:
