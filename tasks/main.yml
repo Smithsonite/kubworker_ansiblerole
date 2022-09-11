@@ -107,7 +107,7 @@
 
 - name: Copy config.toml
   ansible.builtin.copy:
-    src: ~/git/SmitKub/playbooks/kubworker/roles/csmithson12345.kubworker/files/config.toml
+    src: roles/csmithson12345.kubworker/files/config.toml
     dest: /etc/containerd/config.toml
     owner: root
     group: root
@@ -115,7 +115,7 @@
 
 - name: Copy kubernetes.conf to systemctl
   ansible.builtin.copy:
-    src: ~/git/SmitKub/playbooks/kubworker/roles/csmithson12345.kubworker/files/kubernetes.conf
+    src: roles/csmithson12345.kubworker/files/kubernetes.conf
     dest: /etc/sysctl.d/kubernetes.conf
     owner: root
     group: root
