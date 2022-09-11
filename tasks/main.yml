@@ -97,7 +97,6 @@
   ansible.builtin.file:
     path: /opt/cni/bin
     state: directory
-    mode: '0755'
   register: makecnidir
 
 - name: List contents of CNI Directory
