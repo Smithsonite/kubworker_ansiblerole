@@ -13,7 +13,6 @@
   ansible.builtin.apt:
     name: curl
     state: present
-  register: curl
 
 - name: Add the overlay module
   community.general.modprobe:
@@ -25,13 +24,18 @@
     name: br_netfilter
     state: present
 
-- name: Pull Kubernetes key
-  ansible.builtin.command: /bin/bash roles/csmithson12345.kubworker/files/kubekey.sh
-  when: curl is succeeded
+- name: Copy kubekey script
+  ansible.builtin.copy:
+    src: kubekey.sh
+    dest: /tmp/kubekey.sh
+    owner: root
+    group: root
+    mode: '0755'
+  register: keycopy
 
-# - name: Pull Kubernetes key
-#   ansible.builtin.shell: sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-#   when: curl is succeeded
+- name: Pull Kubernetes key
+  ansible.builtin.command: /bin/bash /tmp/kubekey.sh
+  when: keycopy is succeeded
 
 - name: Add Kubernetes repository to apt
   ansible.builtin.apt_repository:
@@ -120,7 +124,7 @@
 
 - name: Copy config.toml
   ansible.builtin.copy:
-    src: roles/csmithson12345.kubworker/files/config.toml
+    src: config.toml
     dest: /etc/containerd/config.toml
     owner: root
     group: root
@@ -130,7 +134,7 @@
 
 - name: Copy kubernetes.conf to systemctl
   ansible.builtin.copy:
-    src: roles/csmithson12345.kubworker/files/kubernetes.conf
+    src: kubernetes.conf
     dest: /etc/sysctl.d/kubernetes.conf
     owner: root
     group: root
