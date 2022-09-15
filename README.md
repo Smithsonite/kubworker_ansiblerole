@@ -1,3 +1,5 @@
+Deprecated in favor of https://github.com/Smithsonite/ansiblerole_kubecluster
+
 Role Name
 =========
 
